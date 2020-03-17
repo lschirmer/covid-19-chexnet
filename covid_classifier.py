@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 import tensorflow as tf
 import keras as keras
 from chexnet.models.keras import ModelFactory
@@ -6,7 +9,7 @@ from configparser import ConfigParser
 from keras.models import Model
 from keras.layers import Concatenate
 from keras.layers import Activation, Input, Lambda, BatchNormalization, GlobalAveragePooling2D,Dense
-from keras.layers import MaxPool2D,UpSampling2D,AveragePooling2D, Flatten
+from keras.layers import MaxPool2D, UpSampling2D, AveragePooling2D, Flatten
 from keras.layers import Conv2D, SeparableConv2D, Dropout, Dense
 from keras.layers import MaxPooling2D
 from keras.layers import Multiply
@@ -27,6 +30,7 @@ import cv2
 import numpy as np
 import seaborn as sns
 
+
 def get_output_layer(model, layer_name):
     # get the symbolic outputs of each "key" layer (we gave them unique names).
     layer_dict = dict([(layer.name, layer) for layer in model.layers])
@@ -45,15 +49,15 @@ class_names = cp["DEFAULT"].get("class_names").split(",")
 image_source_dir = cp["DEFAULT"].get("image_source_dir")
 image_dimension = cp["TRAIN"].getint("image_dimension")
 
-model_weights_path = os.path.join(os.getcwd(),"base_model.h5")
+model_weights_path = os.path.join(os.getcwd(), "base_model.h5")
 print(model_weights_path)
 
-base_model_name= "DenseNet121"
+base_model_name = "DenseNet121"
 
 model_factory = ModelFactory()
 model = model_factory.get_model(
     class_names,
-    model_name = base_model_name,
+    model_name=base_model_name,
     use_base_weights=False,
     weights_path=model_weights_path)
 
@@ -66,7 +70,7 @@ headModel = Dense(64, activation="relu")(headModel)
 headModel = Dropout(0.5)(headModel)
 headModel = Dense(2, activation="softmax")(headModel)
 
-new_model = Model(inputs = model.input, outputs = headModel)
+new_model = Model(inputs=model.input, outputs=headModel)
 #new_model.summary()
 
 
@@ -86,18 +90,18 @@ labels = []
 
 # loop over the image paths
 for imagePath in imagePaths:
-	# extract the class label from the filename
-	label = imagePath.split(os.path.sep)[-2]
+    # extract the class label from the filename
+    label = imagePath.split(os.path.sep)[-2]
 
-	# load the image, swap color channels, and resize it to be a fixed
-	# 224x224 pixels while ignoring aspect ratio
-	image = cv2.imread(imagePath)
-	image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-	image = cv2.resize(image, (224, 224))
+    # load the image, swap color channels, and resize it to be a fixed
+    # 224x224 pixels while ignoring aspect ratio
+    image = cv2.imread(imagePath)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    image = cv2.resize(image, (224, 224))
 
-	# update the data and labels lists, respectively
-	data.append(image)
-	labels.append(label)
+    # update the data and labels lists, respectively
+    data.append(image)
+    labels.append(label)
 
 # convert the data and labels to NumPy arrays while scaling the pixel
 # intensities to the range [0, 255]
@@ -113,28 +117,29 @@ labels = to_categorical(labels)
 # partition the data into training and testing splits using 70% of
 # the data for training and the remaining 30% for testing
 (trainX, testX, trainY, testY) = train_test_split(data, labels,
-	test_size=0.30, stratify=labels, random_state=42)
+                                                  test_size=0.30, stratify=labels,
+                                                  random_state=42)
 
 # initialize the training data augmentation object
 trainAug = ImageDataGenerator(
-	rotation_range=15,
-	fill_mode="nearest")
+    rotation_range=15,
+    fill_mode="nearest")
 
 for layer in model.layers:
-	layer.trainable = False
+    layer.trainable = False
 
 opt = keras.optimizers.Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 new_model.compile(loss="binary_crossentropy", optimizer=opt,
-	metrics=["accuracy"])
+                  metrics=["accuracy"])
 
 # train the head of the network
 print("[INFO] training head...")
 H = new_model.fit_generator(
-	trainAug.flow(trainX, trainY, batch_size=BS),
-	steps_per_epoch=len(trainX) // BS,
-	validation_data=(testX, testY),
-	validation_steps=len(testX) // BS,
-	epochs=EPOCHS)
+    trainAug.flow(trainX, trainY, batch_size=BS),
+    steps_per_epoch=len(trainX) // BS,
+    validation_data=(testX, testY),
+    validation_steps=len(testX) // BS,
+    epochs=EPOCHS)
 
 # make predictions on the testing set
 print("[INFO] evaluating network...")
@@ -146,7 +151,7 @@ predIdxs = np.argmax(predIdxs, axis=1)
 
 # show a nicely formatted classification report
 print(classification_report(testY.argmax(axis=1), predIdxs,
-	target_names=lb.classes_))
+                            target_names=lb.classes_))
 
 # compute the confusion matrix and and use it to derive the raw
 # accuracy, sensitivity, and specificity
@@ -156,8 +161,8 @@ acc = (cm[0, 0] + cm[1, 1]) / total
 sensitivity = cm[0, 0] / (cm[0, 0] + cm[0, 1])
 specificity = cm[1, 1] / (cm[1, 0] + cm[1, 1])
 
-ax= plt.subplot()
-sns.heatmap(cm, annot=True, ax = ax); #annot=True to annotate cells
+ax = plt.subplot()
+sns.heatmap(cm, annot=True, ax=ax)  # annot=True to annotate cells
 
 # labels, title and ticks
 ax.set_xlabel('Predicted labels');ax.set_ylabel('True labels'); 
@@ -185,7 +190,6 @@ plt.legend(loc="lower left")
 plt.savefig("plot_Loss.png")
 
 
-
 N = EPOCHS
 plt.style.use("ggplot")
 plt.figure()
@@ -196,7 +200,6 @@ plt.xlabel("Epoch #")
 plt.ylabel("Loss")
 plt.legend(loc="lower left")
 plt.savefig("plot_accuracy.png")
-
 
 
 tmodel = Model(inputs=new_model.inputs, outputs=model.get_layer('bn').output)
@@ -210,7 +213,7 @@ im = np.expand_dims(image,axis=0)
 im = tmodel.predict(im)
 
 print(im.shape)
-im = im[0,:,:,:]
+im = im[0, :, :, :]
 
 cv2.namedWindow('frame',cv2.WINDOW_NORMAL)
 #weights softmax
