@@ -5,10 +5,10 @@ We use ChexNet to automatically detect COVID-19 in a hand-created X-ray image da
 
 In this application we use transfer learning from a pre-trained network (ChexNet) made available by Bruce Chou [CheXNet-Keras](https://github.com/brucechou1983/CheXNet-Keras). Also, part of the application was built following the tutorial available [here](https://www.pyimagesearch.com/2020/03/16/detecting-covid-19-in-x-ray-images-with-keras-tensorflow-and-deep-learning/) by Adrian Adrian Rosebrock.
 
-#ChexNet
+# ChexNet
 ChexNet is a deep learning algorithm that can detect and localize 14 kinds of diseases from chest X-ray images. As described in the paper, a 121-layer densely connected convolutional neural network is trained on ChestX-ray14 dataset, which contains 112,120 frontal view X-ray images from 30,805 unique patients. We adapted the model to detect and classify lung infections caused by coronavirus.
 
-#Dataset
+# Dataset
 The COVID-19 X-ray image dataset, available [here](https://github.com/ieee8023/covid-chestxray-dataset) was curated by Dr. Joseph Cohen, a postdoctoral fellow at the University of Montreal.
 
 # Requirements
