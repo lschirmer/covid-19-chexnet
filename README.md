@@ -21,7 +21,7 @@ The COVID-19 X-ray image dataset, available [here](https://github.com/ieee8023/c
 # Disclaimer!!!!
 COVID-19-chexnet detection is for educational purposes only. It is not meant to be a reliable, highly accurate COVID-19 diagnosis system, nor has it been professionally or academically vetted. This is not a scientifically rigorous study. 
 
-As said by Adrian Rosebrock, one of the biggest limitations of the method discussed here is data. We simply don’t have enough data to train a COVID-19 detector reliably. The method covered here is only for educational purposes only.
+As said by Adrian Rosebrock, one of the biggest limitations of the method discussed here is data. We simply don’t have enough data to train a COVID-19 detector reliably. The method covered here is only for educational purposes.
 
 
 
