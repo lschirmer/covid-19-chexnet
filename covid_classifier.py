@@ -5,7 +5,8 @@ import os
 from configparser import ConfigParser
 from keras.models import Model
 from keras.layers import Concatenate
-from keras.layers import Activation, Input, Lambda, BatchNormalization, GlobalAveragePooling2D,Dense,MaxPool2D,UpSampling2D,AveragePooling2D, Flatten
+from keras.layers import Activation, Input, Lambda, BatchNormalization, GlobalAveragePooling2D,Dense
+from keras.layers import MaxPool2D,UpSampling2D,AveragePooling2D, Flatten
 from keras.layers import Conv2D, SeparableConv2D, Dropout, Dense
 from keras.layers import MaxPooling2D
 from keras.layers import Multiply
