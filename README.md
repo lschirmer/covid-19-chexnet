@@ -12,11 +12,11 @@ ChexNet is a deep learning algorithm that can detect and localize 14 kinds of di
 The COVID-19 X-ray image dataset, available [here](https://github.com/ieee8023/covid-chestxray-dataset) was curated by Dr. Joseph Cohen, a postdoctoral fellow at the University of Montreal.
 
 # Requirements
-1.Tensorflow
-2.Keras
-3.Scikit-learn
-4.OpenCV
-5.imutils
+1. Tensorflow
+2. Keras
+3. Scikit-learn
+4. OpenCV
+5. imutils
 
 # Disclaimer
 COVID-19-chexnet detection is for educational purposes only. It is not meant to be a reliable, highly accurate COVID-19 diagnosis system, nor has it been professionally or academically vetted. This is not a scientifically rigorous study. 
