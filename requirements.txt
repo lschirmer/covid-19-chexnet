@@ -1,6 +1,7 @@
-tensorflow==2.1.0
+tensorflow==1.14.0
 Keras==2.3.1
 sklearn
 opencv-python==4.2.0.32
 imutils==0.5.3
 matplotlib==3.2.0
+seaborn==0.10.0
