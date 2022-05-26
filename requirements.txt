@@ -1,4 +1,4 @@
-tensorflow==1.14.0
+tensorflow==2.7.2
 Keras==2.3.1
 sklearn
 opencv-python==4.2.0.32
